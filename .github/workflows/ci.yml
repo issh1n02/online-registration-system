@@ -29,6 +29,9 @@ jobs:
       - name: Package application (skip tests, already run)
         run: mvn package -DskipTests
 
+      - name: List target directory
+        run: ls -la target/
+
       - name: Upload JAR artifact
         uses: actions/upload-artifact@v4
         with:
@@ -48,7 +51,12 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: app-jar
-          path: .
+
+      - name: Move JAR to target directory
+        run: |
+          mkdir -p target
+          mv online-registration-system.jar target/
+          ls -la target/
 
       - name: Build Docker image
         run: |
